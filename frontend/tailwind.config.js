@@ -1,0 +1,100 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        background: '#FFFFFF',
+        foreground: '#000000',
+        muted: '#F5F5F5',
+        'muted-foreground': '#525252',
+        accent: '#000000',
+        'accent-foreground': '#FFFFFF',
+        border: '#000000',
+        'border-light': '#E5E5E5',
+        card: '#FFFFFF',
+        'card-foreground': '#000000',
+        ring: '#000000',
+      },
+      fontFamily: {
+        display: ['"Playfair Display"', 'Georgia', 'serif'],
+        body: ['"Source Serif 4"', 'Georgia', 'serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
+      },
+      fontSize: {
+        xs: ['0.75rem', '1rem'],
+        sm: ['0.875rem', '1.25rem'],
+        base: ['1rem', '1.5rem'],
+        lg: ['1.125rem', '1.75rem'],
+        xl: ['1.25rem', '1.75rem'],
+        '2xl': ['1.5rem', '2rem'],
+        '3xl': ['2rem', '2.5rem'],
+        '4xl': ['2.5rem', '3rem'],
+        '5xl': ['3.5rem', '4rem'],
+        '6xl': ['4.5rem', '5rem'],
+        '7xl': ['6rem', '7rem'],
+        '8xl': ['8rem', '9rem'],
+        '9xl': ['10rem', '11rem'],
+      },
+      borderRadius: {
+        none: '0px',
+        DEFAULT: '0px',
+        xs: '0px',
+        sm: '0px',
+        md: '0px',
+        lg: '0px',
+        xl: '0px',
+        '2xl': '0px',
+        '3xl': '0px',
+        full: '0px',
+      },
+      borderWidth: {
+        hairline: '1px',
+        thin: '1px',
+        medium: '2px',
+        thick: '4px',
+        ultra: '8px',
+      },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'slide-up': 'slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        'slide-in-right': 'slideInRight 0.5s ease-out',
+        'slide-in-left': 'slideInLeft 0.5s ease-out',
+        'fade-in': 'fadeIn 0.6s ease-out',
+        'bounce-slow': 'bounce 2s infinite',
+        'shimmer': 'shimmer 2s infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-8px)' },
+        },
+        slideUp: {
+          from: { opacity: '0', transform: 'translateY(60px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideInRight: {
+          from: { opacity: '0', transform: 'translateX(40px)' },
+          to: { opacity: '1', transform: 'translateX(0)' },
+        },
+        slideInLeft: {
+          from: { opacity: '0', transform: 'translateX(-40px)' },
+          to: { opacity: '1', transform: 'translateX(0)' },
+        },
+        fadeIn: {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-1000px 0' },
+          '100%': { backgroundPosition: '1000px 0' },
+        },
+      },
+    },
+  },
+  plugins: [],
+}

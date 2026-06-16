@@ -1,0 +1,60 @@
+export const INDIAN_STATES = [
+  { name: 'Andhra Pradesh', value: 'andhra_pradesh' },
+  { name: 'Arunachal Pradesh', value: 'arunachal_pradesh' },
+  { name: 'Assam', value: 'assam' },
+  { name: 'Bihar', value: 'bihar' },
+  { name: 'Chhattisgarh', value: 'chhattisgarh' },
+  { name: 'Goa', value: 'goa' },
+  { name: 'Gujarat', value: 'gujarat' },
+  { name: 'Haryana', value: 'haryana' },
+  { name: 'Himachal Pradesh', value: 'himachal_pradesh' },
+  { name: 'Jharkhand', value: 'jharkhand' },
+  { name: 'Karnataka', value: 'karnataka' },
+  { name: 'Kerala', value: 'kerala' },
+  { name: 'Madhya Pradesh', value: 'madhya_pradesh' },
+  { name: 'Maharashtra', value: 'maharashtra' },
+  { name: 'Manipur', value: 'manipur' },
+  { name: 'Meghalaya', value: 'meghalaya' },
+  { name: 'Mizoram', value: 'mizoram' },
+  { name: 'Nagaland', value: 'nagaland' },
+  { name: 'Odisha', value: 'odisha' },
+  { name: 'Punjab', value: 'punjab' },
+  { name: 'Rajasthan', value: 'rajasthan' },
+  { name: 'Sikkim', value: 'sikkim' },
+  { name: 'Tamil Nadu', value: 'tamil_nadu' },
+  { name: 'Telangana', value: 'telangana' },
+  { name: 'Tripura', value: 'tripura' },
+  { name: 'Uttar Pradesh', value: 'uttar_pradesh' },
+  { name: 'Uttarakhand', value: 'uttarakhand' },
+  { name: 'West Bengal', value: 'west_bengal' },
+  // Union Territories
+  { name: 'Andaman & Nicobar Islands', value: 'andaman_nicobar' },
+  { name: 'Chandigarh', value: 'chandigarh' },
+  { name: 'Dadra & Nagar Haveli and Daman & Diu', value: 'dadra_nagar_haveli_daman_diu' },
+  { name: 'Delhi', value: 'delhi' },
+  { name: 'Jammu & Kashmir', value: 'jammu_kashmir' },
+  { name: 'Ladakh', value: 'ladakh' },
+  { name: 'Lakshadweep', value: 'lakshadweep' },
+  { name: 'Puducherry', value: 'puducherry' },
+];
+
+export const OCCUPATIONS = [
+  { value: 'farmer', label_en: 'Farmer', label_hi: 'किसान', label_te: 'రైతు', label_ta: 'விவசாயி', label_kn: 'ರೈತ' },
+  { value: 'student', label_en: 'Student', label_hi: 'छात्र', label_te: 'విద్యార్థి', label_ta: 'மாணவர்', label_kn: 'ವಿದ್ಯಾರ್ಥಿ' },
+  { value: 'laborer', label_en: 'Laborer', label_hi: 'मजदूर', label_te: 'కూలీ', label_ta: 'தொழிலாளி', label_kn: 'ಕಾರ್ಮಿಕ' },
+  { value: 'unemployed', label_en: 'Unemployed', label_hi: 'बेरोजगार', label_te: 'నిరుద్యోగి', label_ta: 'வேலையில்லாதவர்', label_kn: 'ನಿರುದ್ಯೋಗಿ' },
+  { value: 'salaried', label_en: 'Salaried', label_hi: 'वेतनभोगी', label_te: 'జీతగాడు', label_ta: 'சம்பளக்காரர்', label_kn: 'ವೇತನಭೋಗಿ' },
+  { value: 'self_employed', label_en: 'Self-Employed', label_hi: 'स्वरोजगार', label_te: 'స్వయం ఉపాధి', label_ta: 'சுயதொழில்', label_kn: 'ಸ್ವಯಂ ಉದ್ಯೋಗಿ' },
+  { value: 'homemaker', label_en: 'Homemaker', label_hi: 'गृहिणी', label_te: 'గృహిణి', label_ta: 'இல்லத்தரசி', label_kn: 'ಗೃಹಿಣಿ' },
+  { value: 'retired', label_en: 'Retired', label_hi: 'सेवानिवृत्त', label_te: 'రిటైర్డ్', label_ta: 'ஓய்வுபெற்றவர்', label_kn: 'ನಿವೃತ್ತ' },
+  { value: 'other', label_en: 'Other', label_hi: 'अन्य', label_te: 'ఇతర', label_ta: 'மற்றவை', label_kn: 'ಇತರೆ' },
+];
+
+export const AGE_RANGES = ['18-25', '25-35', '35-50', '50-60', '60+'];
+
+export const INCOME_RANGES = [
+  { value: '0-10k', label: '₹0 - ₹10,000' },
+  { value: '10-25k', label: '₹10,000 - ₹25,000' },
+  { value: '25-50k', label: '₹25,000 - ₹50,000' },
+  { value: '50k+', label: '₹50,000+' },
+];

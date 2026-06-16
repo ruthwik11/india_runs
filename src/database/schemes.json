@@ -1,0 +1,45 @@
+[
+  {
+    "scheme_id": "pm-awas-001",
+    "name": "PM Awas Yojana",
+    "description": "Housing scheme for rural and urban poor",
+    "benefit_amount": "120000",
+    "eligibility_rules": {
+      "income_max": "50k+",
+      "occupations": ["all"],
+      "states": ["all"]
+    },
+    "state_list": ["all"],
+    "required_documents": ["Aadhaar", "Bank Account", "Land Deed"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Visit https://pmawy.gov.in and register",
+        "action_local": "https://pmawy.gov.in లో సందర్శించండి",
+        "link": "https://pmawy.gov.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "kisan-samman-002",
+    "name": "PM Kisan Samman Nidhi",
+    "description": "Financial support for farmers",
+    "benefit_amount": "6000",
+    "eligibility_rules": {
+      "income_max": "50k+",
+      "occupations": ["farmer"],
+      "states": ["all"],
+      "has_land": true
+    },
+    "state_list": ["all"],
+    "required_documents": ["Aadhaar", "Bank Account", "Land Records"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Visit pmkisan.gov.in",
+        "action_local": "pmkisan.gov.in కి వెళ్ళండి",
+        "link": "https://pmkisan.gov.in"
+      }
+    ]
+  }
+]

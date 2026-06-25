@@ -1,0 +1,320 @@
+[
+  {
+    "scheme_id": "pm-awas-001",
+    "name": "PM Awas Yojana (PMAY-G)",
+    "description": "Housing scheme for rural poor to construct pucca houses with basic amenities.",
+    "benefit_amount": "120000",
+    "eligibility_rules": {
+      "income_max": "10-25k",
+      "occupations": ["farmer", "laborer", "unorganized sector"],
+      "states": ["all"],
+      "has_land": true
+    },
+    "state_list": ["all"],
+    "required_documents": ["Aadhaar", "Bank Account", "Land Deed", "Job Card"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Visit your local Gram Panchayat with Aadhaar.",
+        "action_local": "ఆధార్‌తో మీ స్థానిక గ్రామ పంచాయతీని సందర్శించండి.",
+        "link": "https://pmayg.nic.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "kisan-samman-002",
+    "name": "PM Kisan Samman Nidhi",
+    "description": "Financial support of ₹6,000 per year for landholding farmers.",
+    "benefit_amount": "6000",
+    "eligibility_rules": {
+      "income_max": "50k+",
+      "occupations": ["farmer"],
+      "states": ["all"],
+      "has_land": true
+    },
+    "state_list": ["all"],
+    "required_documents": ["Aadhaar", "Bank Account", "Land Records"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Visit pmkisan.gov.in and register under 'New Farmer Registration'.",
+        "action_local": "pmkisan.gov.in కి వెళ్ళండి.",
+        "link": "https://pmkisan.gov.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "ayushman-bharat-003",
+    "name": "Ayushman Bharat PM-JAY",
+    "description": "Health insurance cover of up to ₹5 lakh per family per year for secondary and tertiary care hospitalization.",
+    "benefit_amount": "500000",
+    "eligibility_rules": {
+      "income_max": "10-25k",
+      "occupations": ["laborer", "unorganized sector", "farmer"],
+      "states": ["all"]
+    },
+    "state_list": ["all"],
+    "required_documents": ["Aadhaar", "Ration Card", "Mobile Number"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Check eligibility on portal and visit empanelled hospital.",
+        "action_local": "పోర్టల్‌లో అర్హతను తనిఖీ చేయండి.",
+        "link": "https://pmjay.gov.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "pm-svanidhi-004",
+    "name": "PM SVANidhi",
+    "description": "Micro-credit facility for street vendors to resume their livelihoods with working capital loan up to ₹10,000.",
+    "benefit_amount": "10000",
+    "eligibility_rules": {
+      "income_max": "0-10k",
+      "occupations": ["vendor", "street vendor", "unorganized sector"],
+      "states": ["all"]
+    },
+    "state_list": ["all"],
+    "required_documents": ["Aadhaar linked with mobile", "Vending Certificate (CoV)"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Apply through PM SVANidhi portal or nearest CSC.",
+        "action_local": "PM SVANidhi పోర్టల్ ద్వారా దరఖాస్తు చేయండి.",
+        "link": "https://pmsvanidhi.mohua.gov.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "pmmvy-005",
+    "name": "Pradhan Mantri Matru Vandana Yojana",
+    "description": "Maternity benefit program providing ₹5,000 to pregnant and lactating mothers for first living child.",
+    "benefit_amount": "5000",
+    "eligibility_rules": {
+      "income_max": "10-25k",
+      "occupations": ["all"],
+      "states": ["all"]
+    },
+    "state_list": ["all"],
+    "required_documents": ["Aadhaar", "Bank Account", "MCP Card"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Register at nearest Anganwadi Centre.",
+        "action_local": "సమీప అంగన్‌వాడీ కేంద్రంలో నమోదు చేసుకోండి.",
+        "link": "https://pmmvy.nic.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "standup-india-006",
+    "name": "Stand-Up India",
+    "description": "Bank loans between ₹10 lakh and ₹1 Crore to at least one SC or ST borrower and at least one woman borrower per bank branch for setting up a greenfield enterprise.",
+    "benefit_amount": "1000000",
+    "eligibility_rules": {
+      "income_max": "50k+",
+      "occupations": ["business", "entrepreneur"],
+      "states": ["all"]
+    },
+    "state_list": ["all"],
+    "required_documents": ["Aadhaar", "Project Report", "Caste Certificate (if applicable)"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Apply through portal or visit bank branch.",
+        "action_local": "పోర్టల్ ద్వారా లేదా బ్యాంక్ బ్రాంచ్‌ని సందర్శించి దరఖాస్తు చేయండి.",
+        "link": "https://www.standupmitra.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "sukanya-samriddhi-007",
+    "name": "Sukanya Samriddhi Yojana",
+    "description": "Small deposit scheme for the girl child as part of 'Beti Bachao Beti Padhao' campaign.",
+    "benefit_amount": "variable",
+    "eligibility_rules": {
+      "income_max": "50k+",
+      "occupations": ["all"],
+      "states": ["all"]
+    },
+    "state_list": ["all"],
+    "required_documents": ["Girl child birth certificate", "Guardian Aadhaar"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Open account at Post Office or authorized bank.",
+        "action_local": "పోస్ట్ ఆఫీస్ లేదా బ్యాంక్‌లో ఖాతా తెరవండి.",
+        "link": "https://www.indiapost.gov.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "kanyashree-008",
+    "name": "Kanyashree Prakalpa (West Bengal)",
+    "description": "Conditional cash transfer scheme to improve the life and status of girls by helping them pursue higher studies.",
+    "benefit_amount": "25000",
+    "eligibility_rules": {
+      "income_max": "10-25k",
+      "occupations": ["student"],
+      "states": ["West Bengal"]
+    },
+    "state_list": ["West Bengal"],
+    "required_documents": ["Birth Certificate", "Unmarried Certificate", "Bank Account"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Apply through school/college institution.",
+        "action_local": "సంస్థ ద్వారా దరఖాస్తు చేయండి.",
+        "link": "https://wbkanyashree.gov.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "rythu-bandhu-009",
+    "name": "Rythu Bandhu (Telangana)",
+    "description": "Agriculture investment support scheme providing ₹5,000 per acre per season to farmers.",
+    "benefit_amount": "5000",
+    "eligibility_rules": {
+      "income_max": "50k+",
+      "occupations": ["farmer"],
+      "states": ["Telangana"],
+      "has_land": true
+    },
+    "state_list": ["Telangana"],
+    "required_documents": ["Pattadar Passbook", "Aadhaar", "Bank Account"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Submit details to village agriculture officer.",
+        "action_local": "గ్రామ వ్యవసాయ అధికారికి వివరాలు సమర్పించండి.",
+        "link": "http://rythubandhu.telangana.gov.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "pm-jjby-010",
+    "name": "Pradhan Mantri Jeevan Jyoti Bima Yojana",
+    "description": "Life insurance scheme of ₹2 lakhs for death due to any reason, premium of ₹436 per annum.",
+    "benefit_amount": "200000",
+    "eligibility_rules": {
+      "income_max": "50k+",
+      "occupations": ["all"],
+      "states": ["all"]
+    },
+    "state_list": ["all"],
+    "required_documents": ["Aadhaar", "Bank Account (Auto-debit mandate)"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Enroll via your bank branch or net banking.",
+        "action_local": "మీ బ్యాంక్ బ్రాంచ్ ద్వారా నమోదు చేయండి.",
+        "link": "https://jansuraksha.gov.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "nrega-011",
+    "name": "MGNREGA",
+    "description": "Guarantees 100 days of wage employment in a financial year to a rural household whose adult members volunteer to do unskilled manual work.",
+    "benefit_amount": "daily_wage",
+    "eligibility_rules": {
+      "income_max": "0-10k",
+      "occupations": ["laborer", "unemployed"],
+      "states": ["all"]
+    },
+    "state_list": ["all"],
+    "required_documents": ["Aadhaar", "Bank/Post Office Account", "Photograph"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Apply for Job Card at local Gram Panchayat.",
+        "action_local": "స్థానిక గ్రామ పంచాయతీలో జాబ్ కార్డ్ కోసం దరఖాస్తు చేయండి.",
+        "link": "https://nrega.nic.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "atal-pension-012",
+    "name": "Atal Pension Yojana (APY)",
+    "description": "Pension scheme focused on the unorganized sector workers, guaranteeing a minimum pension of ₹1,000 to ₹5,000 per month.",
+    "benefit_amount": "1000_5000_pm",
+    "eligibility_rules": {
+      "income_max": "10-25k",
+      "occupations": ["laborer", "vendor", "unorganized sector"],
+      "states": ["all"]
+    },
+    "state_list": ["all"],
+    "required_documents": ["Aadhaar", "Savings Bank Account"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Approach your bank branch to fill APY form.",
+        "action_local": "APY ఫారమ్ నింపడానికి మీ బ్యాంక్‌కి వెళ్లండి.",
+        "link": "https://npscra.nsdl.co.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "pm-udaya-013",
+    "name": "PM UDAY",
+    "description": "Conferment of ownership rights to residents of unauthorized colonies in Delhi.",
+    "benefit_amount": "property_rights",
+    "eligibility_rules": {
+      "income_max": "50k+",
+      "occupations": ["all"],
+      "states": ["Delhi"]
+    },
+    "state_list": ["Delhi"],
+    "required_documents": ["Aadhaar", "Property Docs", "Electricity Bill"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Register on DDA PM-UDAY portal.",
+        "action_local": "PM-UDAY పోర్టల్‌లో నమోదు చేయండి.",
+        "link": "https://delhi.ncog.gov.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "gruha-lakshmi-014",
+    "name": "Gruha Lakshmi Scheme (Karnataka)",
+    "description": "Financial assistance of ₹2,000 per month to the woman head of a household.",
+    "benefit_amount": "2000",
+    "eligibility_rules": {
+      "income_max": "25-50k",
+      "occupations": ["all"],
+      "states": ["Karnataka"]
+    },
+    "state_list": ["Karnataka"],
+    "required_documents": ["Aadhaar", "BPL/APL Card", "Bank Account"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Register at Grama One / Bangalore One center.",
+        "action_local": "గ్రామ వన్ కేంద్రంలో నమోదు చేయండి.",
+        "link": "https://sevasindhu.karnataka.gov.in"
+      }
+    ]
+  },
+  {
+    "scheme_id": "pm-mudra-015",
+    "name": "Pradhan Mantri Mudra Yojana (PMMY)",
+    "description": "Loans up to ₹10 lakh to non-corporate, non-farm small/micro enterprises.",
+    "benefit_amount": "1000000",
+    "eligibility_rules": {
+      "income_max": "50k+",
+      "occupations": ["business", "entrepreneur", "vendor"],
+      "states": ["all"]
+    },
+    "state_list": ["all"],
+    "required_documents": ["Aadhaar", "Business Proof", "Bank Statement"],
+    "steps_to_apply": [
+      {
+        "step": 1,
+        "action_en": "Approach nearest bank or apply via Udyamimitra portal.",
+        "action_local": "సమీప బ్యాంక్ లేదా ఉద్యమిమిత్ర పోర్టల్ ద్వారా దరఖాస్తు చేయండి.",
+        "link": "https://www.mudra.org.in"
+      }
+    ]
+  }
+]

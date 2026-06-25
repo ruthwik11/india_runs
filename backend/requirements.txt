@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+langchain
+langgraph
+chromadb
+sentence-transformers
+groq
+requests
+beautifulsoup4
+pydantic
+pydantic-settings
+python-dotenv
+pytest

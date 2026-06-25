@@ -1,0 +1,22 @@
+{
+  "home.title": "Find Government Schemes You Qualify For",
+  "home.subtitle": "Discover benefits you didn't know about. No complex jargon, just answers.",
+  "home.startButton": "Find My Schemes",
+  "home.feature1.title": "Find Schemes",
+  "home.feature1.desc": "Discover government schemes you qualify for",
+  "home.feature2.title": "Multi-Language",
+  "home.feature2.desc": "Available in 5 Indian languages",
+  "home.feature3.title": "Step-by-Step",
+  "home.feature3.desc": "Clear instructions to apply",
+  "form.ageQuestion": "What's your age?",
+  "form.incomeQuestion": "What's your monthly income?",
+  "form.stateQuestion": "Which state are you in?",
+  "form.occupationQuestion": "What's your occupation?",
+  "form.familySizeQuestion": "How many people in your family?",
+  "form.landQuestion": "Do you own any land?",
+  "results.title": "Schemes You Qualify For",
+  "button.next": "Next",
+  "button.back": "Back",
+  "button.findSchemes": "Find My Schemes",
+  "button.applyNow": "Apply Now"
+}

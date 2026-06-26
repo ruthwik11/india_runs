@@ -1,0 +1,42 @@
+services:
+  # -------------------------------------
+  # 1. Backend Web Service (FastAPI)
+  # -------------------------------------
+  - type: web
+    name: sarkarisathi-backend
+    env: python
+    region: oregon
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn src.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: CORS_ORIGINS
+        value: "*"
+      # We set sync: false so Render prompts you for your API key securely
+      - key: GROQ_API_KEY
+        sync: false 
+
+  # -------------------------------------
+  # 2. Frontend Static Site (Vite/React)
+  # -------------------------------------
+  - type: web
+    name: sarkarisathi-frontend
+    env: static
+    region: oregon
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    # Handle React Router navigation
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      # Automatically grab the backend's live URL and give it to the frontend!
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: sarkarisathi-backend
+          envVarKey: RENDER_EXTERNAL_URL

@@ -1,0 +1,16 @@
+{
+  "short_name": "SarkariSaathi",
+  "name": "SarkariSaathi - Government Schemes",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "description": "AI-powered assistant to discover and apply for central & state government welfare schemes in your language."
+}

@@ -24,7 +24,8 @@ export const BotMessage = ({ message, children }) => {
       window.speechSynthesis.cancel();
       setIsSpeaking(false);
     } else {
-      const utterance = new SpeechSynthesisUtterance(message);
+      const textToSpeak = typeof message === 'string' ? message : JSON.stringify(message);
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
       utterance.onend = () => setIsSpeaking(false);
       window.speechSynthesis.speak(utterance);
       setIsSpeaking(true);
@@ -47,7 +48,7 @@ export const BotMessage = ({ message, children }) => {
           {isSpeaking ? '⏹' : '🔊'}
         </button>
         <div className="markdown-content">
-          <ReactMarkdown>{message}</ReactMarkdown>
+          <ReactMarkdown>{typeof message === 'string' ? message : (message ? JSON.stringify(message, null, 2) : '')}</ReactMarkdown>
         </div>
         {children}
       </div>
@@ -55,16 +56,29 @@ export const BotMessage = ({ message, children }) => {
   );
 };
 
-export const TypingIndicator = () => (
-  <motion.div
-    initial={{ opacity: 0, x: -40 }}
-    animate={{ opacity: 1, x: 0 }}
-    className="flex justify-start mb-4"
-  >
-    <div className="bg-white border-thin border-black text-black px-6 py-4 font-body flex gap-1 items-center">
-      <motion.span animate={{ y: [0, -4, 0] }} transition={{ duration: 0.6, repeat: Infinity }}>•</motion.span>
-      <motion.span animate={{ y: [0, -4, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}>•</motion.span>
-      <motion.span animate={{ y: [0, -4, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}>•</motion.span>
-    </div>
-  </motion.div>
-);
+export const TypingIndicator = () => {
+  const [textIndex, setTextIndex] = useState(0);
+  const loadingTexts = ["Thinking", "Reviewing profile", "Finding matches", "Almost done"];
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setTextIndex((prev) => (prev + 1) % loadingTexts.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -40 }}
+      animate={{ opacity: 1, x: 0 }}
+      className="flex justify-start mb-4"
+    >
+      <div className="bg-white border-thin border-black text-black px-6 py-4 font-body flex gap-1 items-center">
+        <span className="mr-2 uppercase tracking-widest text-sm font-bold">{loadingTexts[textIndex]}</span>
+        <motion.span animate={{ y: [0, -4, 0] }} transition={{ duration: 0.6, repeat: Infinity }}>•</motion.span>
+        <motion.span animate={{ y: [0, -4, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}>•</motion.span>
+        <motion.span animate={{ y: [0, -4, 0] }} transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}>•</motion.span>
+      </div>
+    </motion.div>
+  );
+};

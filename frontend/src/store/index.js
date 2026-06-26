@@ -54,6 +54,11 @@ export const useAppStore = create((set, get) => ({
     storage.saveChatHistory(get().sessionId, messages);
   },
 
+  clearMessages: () => {
+    set({ messages: [] });
+    storage.saveChatHistory(get().sessionId, []);
+  },
+
   addMessage: (message) => {
     set((state) => {
       const newMessages = [...state.messages, message];

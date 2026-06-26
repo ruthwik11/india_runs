@@ -5,10 +5,15 @@ from src.database.chroma_client import init_chroma
 
 app = FastAPI(title="SarkariSaathi Backend")
 
+import os
+
+origins_env = os.getenv("CORS_ORIGINS", "*")
+origins = [origin.strip() for origin in origins_env.split(",")] if origins_env != "*" else ["*"]
+
 # Allow frontend to call you
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )

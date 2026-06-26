@@ -50,10 +50,18 @@ async def generate_response(state: AgentState) -> AgentState:
     """Use Groq to create friendly, localized output or answer questions"""
     from src.llm.groq_client import generate_summary
     
+    LANGUAGE_MAP = {
+        "en": "English", "hi": "Hindi", "te": "Telugu", "ta": "Tamil", 
+        "kn": "Kannada", "mr": "Marathi", "ml": "Malayalam", "gu": "Gujarati", 
+        "or": "Odia", "pa": "Punjabi", "bn": "Bengali", "ur": "Urdu", 
+        "mni": "Manipuri", "as": "Assamese"
+    }
+    full_language = LANGUAGE_MAP.get(state["language"], "English")
+
     summary = generate_summary(
         schemes=state["matched_schemes"],
         profile=state["profile"],
-        language=state["language"],
+        language=full_language,
         message=state.get("message")
     )
     
@@ -61,7 +69,7 @@ async def generate_response(state: AgentState) -> AgentState:
         "schemes": state["matched_schemes"],
         "total_matched": len(state["matched_schemes"]),
         "summary_en": summary["en"],
-        "summary_local": summary.get(state["language"], summary["en"])
+        "summary_local": summary.get("local", summary["en"])
     }
     
     return state

@@ -26,9 +26,9 @@ function Home({ onStart }) {
   };
 
   const features = [
-    { title: t('home.feature1.title'), desc: t('home.feature1.desc') },
-    { title: t('home.feature2.title'), desc: t('home.feature2.desc') },
-    { title: t('home.feature3.title'), desc: t('home.feature3.desc') },
+    { title: t('home.feature1Title'), desc: t('home.feature1Desc') },
+    { title: t('home.feature2Title'), desc: t('home.feature2Desc') },
+    { title: t('home.feature3Title'), desc: t('home.feature3Desc') },
   ];
 
   return (
@@ -41,9 +41,14 @@ function Home({ onStart }) {
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
           className="w-16 h-16 border-[3px] border-black flex items-center justify-center mb-8"
         >
-          {/* Simple monochromatic shield representation */}
-          <svg width="24" height="30" viewBox="0 0 24 30" fill="none" stroke="black" strokeWidth="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          {/* Government Building Icon */}
+          <svg width="40" height="40" viewBox="0 0 256 256" fill="currentColor" className="text-black">
+            <path d="M128 48 L196 96 H60 Z" />
+            <rect x="72" y="104" width="16" height="64" />
+            <rect x="120" y="104" width="16" height="64" />
+            <rect x="168" y="104" width="16" height="64" />
+            <rect x="60" y="176" width="136" height="16" />
+            <rect x="52" y="196" width="152" height="16" />
           </svg>
         </motion.div>
 

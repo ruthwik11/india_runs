@@ -22,7 +22,7 @@ def generate_summary(schemes: list, profile: dict, language: str, message: str =
         }
         return {
             "en": fallback_msgs["en"],
-            language: fallback_msgs.get(language, "No schemes found for your profile.")
+            "local": fallback_msgs.get(language, "No schemes found for your profile.")
         }
         
     if message and message.strip():
@@ -35,47 +35,58 @@ def generate_summary(schemes: list, profile: dict, language: str, message: str =
         if message:
              return {
                  "en": "I am operating in offline mode, but based on your profile, you are eligible for several schemes.",
-                 language: "Offline mode: Eligible for several schemes."
+                 "local": "Offline mode: Eligible for several schemes."
              }
         return {
             "en": f"You qualify for {len(schemes)} government schemes worth exploring.",
-            language: f"Offline mode: You qualify for {len(schemes)} government schemes."
+            "local": f"Offline mode: You qualify for {len(schemes)} government schemes."
         }
     
-    try:
-        completion = client.chat.completions.create(
-            model=settings.GROQ_MODEL,
-            max_tokens=800,
-            response_format={"type": "json_object"},
-            messages=[
-                {"role": "user", "content": prompt}
-            ]
-        )
-        
-        response_text = completion.choices[0].message.content
-        
+    import time
+    max_retries = 3
+    for attempt in range(max_retries):
         try:
-            parsed = json.loads(response_text)
-            return {
-                "en": parsed.get("en", "Error: Missing English text"),
-                language: parsed.get("local", parsed.get("en", "Error: Missing translation text"))
-            }
-        except json.JSONDecodeError:
-            clean_text = response_text.replace("```json", "").replace("```", "").strip()
+            completion = client.chat.completions.create(
+                model=settings.GROQ_MODEL,
+                max_tokens=800,
+                response_format={"type": "json_object"},
+                messages=[
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            
+            response_text = completion.choices[0].message.content
+            
             try:
-                parsed = json.loads(clean_text)
+                parsed = json.loads(response_text)
                 return {
-                    "en": parsed.get("en", "Error: Missing English text"),
-                    language: parsed.get("local", parsed.get("en", "Error: Missing translation text"))
+                    "en": parsed.get("en", parsed.get("english", parsed.get("answer", str(parsed)))),
+                    "local": parsed.get("local", parsed.get("en", str(parsed)))
                 }
+            except json.JSONDecodeError:
+                clean_text = response_text.replace("```json", "").replace("```", "").strip()
+                try:
+                    parsed = json.loads(clean_text)
+                    return {
+                        "en": parsed.get("en", parsed.get("english", parsed.get("answer", clean_text))),
+                        "local": parsed.get("local", parsed.get("en", clean_text))
+                    }
+                except Exception:
+                    return {
+                        "en": clean_text,
+                        "local": clean_text
+                    }
+        except Exception as e:
+            try:
+                print(f"Groq API Error on attempt {attempt + 1}: {e}".encode('utf-8', errors='replace').decode('utf-8', errors='replace'))
             except:
-                return {
-                    "en": clean_text,
-                    language: clean_text
-                }
-    except Exception as e:
-        print(f"Groq API Error: {e}")
-        return {
-            "en": f"You qualify for {len(schemes)} government schemes.",
-            language: f"Fallback: You qualify for {len(schemes)} government schemes."
-        }
+                pass
+            
+            if attempt < max_retries - 1:
+                time.sleep(2 ** attempt) # Exponential backoff: 1s, 2s
+                continue
+            
+            return {
+                "en": f"You qualify for {len(schemes)} government schemes.",
+                "local": f"Fallback: You qualify for {len(schemes)} government schemes."
+            }

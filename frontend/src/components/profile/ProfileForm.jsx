@@ -28,6 +28,7 @@ const steps = [
 const ProfileForm = ({ onSubmit, initialData }) => {
   const { i18n } = useTranslation();
   const [currentStep, setCurrentStep] = useState(0);
+  const isProcessing = React.useRef(false);
   const { control, handleSubmit, trigger, watch, formState: { errors } } = useForm({
     resolver: zodResolver(profileSchema),
     defaultValues: initialData || {
@@ -76,15 +77,24 @@ const ProfileForm = ({ onSubmit, initialData }) => {
   const activeSteps = steps.filter(step => !step.condition || step.condition(formValues));
   
   const handleNext = async () => {
-    const stepField = activeSteps[currentStep].id;
-    const isStepValid = await trigger(stepField);
-    
-    if (isStepValid) {
-      if (currentStep < activeSteps.length - 1) {
-        setCurrentStep(prev => prev + 1);
-      } else {
-        handleSubmit(onSubmit)();
+    if (isProcessing.current) return;
+    isProcessing.current = true;
+
+    try {
+      const stepField = activeSteps[currentStep].id;
+      const isStepValid = await trigger(stepField);
+      
+      if (isStepValid) {
+        if (currentStep < activeSteps.length - 1) {
+          setCurrentStep(prev => prev + 1);
+        } else {
+          handleSubmit(onSubmit)();
+        }
       }
+    } finally {
+      setTimeout(() => {
+        isProcessing.current = false;
+      }, 150); // Prevent double-tap or key-repeat skipping
     }
   };
 
@@ -112,6 +122,14 @@ const ProfileForm = ({ onSubmit, initialData }) => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => field.onChange(opt)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.repeat) {
+                          if (field.value === opt) {
+                            e.preventDefault();
+                            handleNext();
+                          }
+                        }
+                      }}
                       className={`p-4 border-2 border-black font-mono uppercase tracking-widest text-sm transition-all duration-100 ${
                         isSelected ? 'bg-black text-white' : 'bg-white text-black hover:border-4'
                       }`}
@@ -141,6 +159,14 @@ const ProfileForm = ({ onSubmit, initialData }) => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => field.onChange(true)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.repeat) {
+                      if (field.value === true) {
+                        e.preventDefault();
+                        handleNext();
+                      }
+                    }
+                  }}
                   className={`p-4 border-2 border-black font-mono uppercase tracking-widest text-sm transition-all duration-100 ${
                     field.value === true ? 'bg-black text-white' : 'bg-white text-black'
                   }`}
@@ -152,6 +178,14 @@ const ProfileForm = ({ onSubmit, initialData }) => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => field.onChange(false)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.repeat) {
+                      if (field.value === false) {
+                        e.preventDefault();
+                        handleNext();
+                      }
+                    }
+                  }}
                   className={`p-4 border-2 border-black font-mono uppercase tracking-widest text-sm transition-all duration-100 ${
                     field.value === false ? 'bg-black text-white' : 'bg-white text-black'
                   }`}
@@ -177,6 +211,12 @@ const ProfileForm = ({ onSubmit, initialData }) => {
                   const val = step.type === 'number' ? (e.target.value ? Number(e.target.value) : '') : e.target.value;
                   field.onChange(val);
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.repeat) {
+                    e.preventDefault();
+                    handleNext();
+                  }
+                }}
                 className={`w-full p-4 text-xl font-body bg-white text-black border-b-2 border-black focus:border-b-4 focus:outline-none transition-all duration-100`}
               />
             )}
@@ -190,6 +230,12 @@ const ProfileForm = ({ onSubmit, initialData }) => {
             render={({ field }) => (
               <select
                 {...field}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.repeat) {
+                    e.preventDefault();
+                    handleNext();
+                  }
+                }}
                 className={`w-full p-4 text-xl font-body bg-white text-black border-b-2 border-black focus:border-b-4 focus:outline-none transition-all duration-100 cursor-pointer appearance-none`}
                 style={{ backgroundImage: 'linear-gradient(45deg, transparent 50%, black 50%), linear-gradient(135deg, black 50%, transparent 50%)', backgroundPosition: 'calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px)', backgroundSize: '5px 5px, 5px 5px', backgroundRepeat: 'no-repeat' }}
               >
@@ -207,6 +253,10 @@ const ProfileForm = ({ onSubmit, initialData }) => {
   };
 
   const currentStepData = activeSteps[currentStep];
+  
+  // Failsafe against out-of-bounds index caused by rapid re-renders
+  if (!currentStepData) return null;
+
   const errorMessage = errors[currentStepData?.id]?.message;
 
   return (

@@ -67,7 +67,7 @@ async def chat_endpoint(request: ChatRequest) -> ChatResponse:
         # Run agent graph
         result = await run_agent(
             user_id=request.user_id,
-            language=full_language,
+            language=request.language,
             profile=request.profile.model_dump(), # pydantic v2
             message=request.message
         )

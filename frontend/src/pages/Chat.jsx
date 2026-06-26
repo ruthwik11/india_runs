@@ -6,13 +6,12 @@ import { Button } from '../components/shared/Button';
 import ProfileForm from '../components/profile/ProfileForm';
 import ChatWindow from '../components/chat/ChatWindow';
 import { useAppStore } from '../store';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+import { sendChatMessage } from '../services/api';
 
 const Chat = ({ onBack }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const { i18n } = useTranslation();
-  const { messages, isTyping, addMessage, setTyping, updateProfile, profile } = useAppStore();
+  const { messages, isTyping, addMessage, setTyping, updateProfile, profile, clearMessages } = useAppStore();
   const [inputValue, setInputValue] = useState('');
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = React.useRef(null);
@@ -51,20 +50,20 @@ const Chat = ({ onBack }) => {
     }
   };
 
-  const sendToBackend = async (messageText = null) => {
+  const sendToBackend = async (messageText = null, currentProfile = profile) => {
     setTyping(true);
     try {
       const payload = {
         user_id: "user-123", // In a real app, use auth token or UUID
         language: i18n.language,
-        profile: profile,
+        profile: currentProfile,
         message: messageText
       };
       
-      const response = await axios.post(`${API_URL}/chat`, payload);
+      const responseData = await sendChatMessage(payload);
       
-      if (response.data.status === 'success') {
-        const { schemes, summary_local, summary_en } = response.data.data;
+      if (responseData.status === 'success') {
+        const { schemes, summary_local, summary_en } = responseData.data;
         const botResponse = summary_local || summary_en;
         
         addMessage({
@@ -74,7 +73,7 @@ const Chat = ({ onBack }) => {
           isFirstMessage: messageText === null
         });
       } else {
-        addMessage({ sender: 'bot', text: 'Sorry, there was an error processing your request.' });
+        addMessage({ sender: 'bot', text: `Sorry, there was an error processing your request. Details: ${responseData.error_message || 'Unknown error'}` });
       }
     } catch (error) {
       console.error("API Error:", error);
@@ -90,8 +89,9 @@ const Chat = ({ onBack }) => {
 
   const handleProfileSubmit = (data) => {
     updateProfile(data);
+    clearMessages(); // Start a fresh chat for the new profile
     setFormSubmitted(true);
-    sendToBackend(); // Initial check without message
+    sendToBackend(null, { ...profile, ...data }); // Use the latest combined profile data to avoid stale closure
   };
 
   const handleSendMessage = (e) => {
@@ -137,7 +137,7 @@ const Chat = ({ onBack }) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, y: 50 }}
             transition={{ type: 'spring', stiffness: 70, damping: 20 }}
-            className="bg-white border-thin border-black flex flex-col h-[75vh] max-h-[850px] overflow-hidden"
+            className="bg-white border-thin border-black flex flex-col h-[75dvh] max-h-[850px] overflow-hidden"
           >
             {/* Chat Header */}
             <div className="bg-black text-white p-4 md:px-6 flex items-center justify-between z-20">

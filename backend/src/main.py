@@ -18,10 +18,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+import asyncio
+
 @app.on_event("startup")
 async def startup():
     """Index all schemes on startup"""
-    await init_chroma()
+    asyncio.create_task(init_chroma())
 
 # Mount routes
 app.include_router(health.router)

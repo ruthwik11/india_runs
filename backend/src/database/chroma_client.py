@@ -1,5 +1,5 @@
 import chromadb
-from sentence_transformers import SentenceTransformer
+from chromadb.utils.embedding_functions import DefaultEmbeddingFunction
 import json
 import os
 from src.config import settings
@@ -16,7 +16,7 @@ async def init_chroma():
     chroma_client = chromadb.PersistentClient(path=settings.CHROMA_PERSISTENT_PATH)
     
     # Init embedding model
-    embedding_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+    embedding_model = DefaultEmbeddingFunction()
     
     # Check if schemes.json exists
     schemes_path = os.path.join(os.path.dirname(__file__), 'schemes.json')
@@ -46,7 +46,7 @@ async def init_chroma():
             collection.add(
                 ids=[scheme['scheme_id']],
                 documents=[doc_text],
-                embeddings=[embedding_model.encode(doc_text).tolist()],
+                embeddings=[embedding_model([doc_text])[0]],
                 metadatas=[{
                     "scheme_id": scheme['scheme_id'],
                     "name": scheme.get('name', ''),
@@ -62,7 +62,7 @@ def query_schemes(query_text: str, language: str, top_k: int = 10):
         
     collection = chroma_client.get_collection(f"schemes_{language}")
     
-    query_embedding = embedding_model.encode(query_text).tolist()
+    query_embedding = embedding_model([query_text])[0]
     
     results = collection.query(
         query_embeddings=[query_embedding],

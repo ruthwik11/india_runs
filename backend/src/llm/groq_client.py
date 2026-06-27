@@ -8,8 +8,19 @@ client = None
 if settings.GROQ_API_KEY != "test-key" and settings.GROQ_API_KEY:
     client = Groq(api_key=settings.GROQ_API_KEY)
 
+# map full language names (passed by the agent) -> short codes used in fallbacks
+_LANG_NAME_TO_CODE = {
+    "english": "en", "hindi": "hi", "telugu": "te", "tamil": "ta", "kannada": "kn",
+    "marathi": "mr", "malayalam": "ml", "gujarati": "gu", "odia": "or", "punjabi": "pa",
+    "bengali": "bn", "urdu": "ur", "manipuri": "mni", "assamese": "as",
+}
+
+
 def generate_summary(schemes: list, profile: dict, language: str, message: str = None) -> dict:
     """Use Groq to create user-friendly summary or answer specific questions"""
+    # accept either a full name ("Telugu") or a code ("te")
+    lang_code = _LANG_NAME_TO_CODE.get(language.lower(), language.lower())
+
     if not schemes and not message:
         fallback_msgs = {
             "en": "No schemes found for your profile.", 
@@ -22,7 +33,7 @@ def generate_summary(schemes: list, profile: dict, language: str, message: str =
         }
         return {
             "en": fallback_msgs["en"],
-            "local": fallback_msgs.get(language, "No schemes found for your profile.")
+            "local": fallback_msgs.get(lang_code, fallback_msgs["en"])
         }
         
     if message and message.strip():

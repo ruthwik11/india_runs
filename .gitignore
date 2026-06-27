@@ -33,6 +33,15 @@ lerna-debug.log*
 chroma_db/
 *.sqlite3
 
+# Firebase / GCP service-account secrets — NEVER commit
+secrets/
+*firebase-adminsdk*.json
+*service-account*.json
+*-sa.json
+google-credentials*.json
+.firebase/
+.firebaserc.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

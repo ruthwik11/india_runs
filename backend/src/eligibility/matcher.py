@@ -1,4 +1,4 @@
-from src.database.chroma_client import query_schemes, get_scheme_details
+from src.database.firestore_client import query_schemes, get_scheme_details
 from src.eligibility.rules import (
     check_eligibility,
     check_income_match,

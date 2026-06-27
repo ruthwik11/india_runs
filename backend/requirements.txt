@@ -3,6 +3,7 @@ uvicorn
 langchain
 langgraph
 chromadb
+google-cloud-firestore>=2.16.0
 groq
 requests
 beautifulsoup4

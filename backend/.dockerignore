@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.env
+.env.*
+chroma_db/
+*.sqlite3
+# never ship service-account secrets into the image
+*firebase-adminsdk*.json
+*service-account*.json
+*-sa.json
+secrets/
+tests/
+*.md

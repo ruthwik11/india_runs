@@ -9,9 +9,13 @@ services:
       - "8000:8000"
     environment:
       - GROQ_API_KEY=${GROQ_API_KEY}
-      - CHROMA_PERSISTENT_PATH=/app/chroma_db
+      - GCP_PROJECT_ID=${GCP_PROJECT_ID:-sarkarisaathi-687f1}
+      - FIRESTORE_DATABASE=${FIRESTORE_DATABASE:-(default)}
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/secrets/firebase-sa.json
+      - VECTOR_DISTANCE=COSINE
     volumes:
-      - ./backend/chroma_db:/app/chroma_db
+      # mount the service-account JSON read-only; set SA_KEY_PATH in your .env
+      - ${SA_KEY_PATH:-./backend/secrets/firebase-sa.json}:/app/secrets/firebase-sa.json:ro
     networks:
       - sarkari-network
 

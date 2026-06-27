@@ -16,7 +16,17 @@ services:
         value: "*"
       # We set sync: false so Render prompts you for your API key securely
       - key: GROQ_API_KEY
-        sync: false 
+        sync: false
+      # --- Firestore vector DB ---
+      - key: GCP_PROJECT_ID
+        value: sarkarisaathi-687f1
+      - key: FIRESTORE_DATABASE
+        value: "(default)"
+      - key: VECTOR_DISTANCE
+        value: COSINE
+      # paste the FULL service-account JSON as the value (Render keeps it secret)
+      - key: GOOGLE_APPLICATION_CREDENTIALS_JSON
+        sync: false
 
   # -------------------------------------
   # 2. Frontend Static Site (Vite/React)

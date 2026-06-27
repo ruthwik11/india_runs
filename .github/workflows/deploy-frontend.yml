@@ -14,6 +14,11 @@ permissions:
   contents: read
   id-token: write        # required for Workload Identity Federation
 
+env:
+  GCP_PROJECT: sarkarisaathi-687f1
+  WIF_PROVIDER: projects/525215721719/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+  DEPLOY_SA: github-deployer@sarkarisaathi-687f1.iam.gserviceaccount.com
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -34,9 +39,9 @@ jobs:
         name: Authenticate to GCP (keyless / WIF)
         uses: google-github-actions/auth@v2
         with:
-          project_id: ${{ vars.GCP_PROJECT }}
-          workload_identity_provider: ${{ vars.WIF_PROVIDER }}
-          service_account: ${{ vars.DEPLOY_SA }}
+          project_id: ${{ env.GCP_PROJECT }}
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.DEPLOY_SA }}
 
       - name: Deploy to Firebase Hosting
-        run: npx --yes firebase-tools@latest deploy --only hosting --project "${{ vars.GCP_PROJECT }}" --non-interactive
+        run: npx --yes firebase-tools@latest deploy --only hosting --project "${{ env.GCP_PROJECT }}" --non-interactive

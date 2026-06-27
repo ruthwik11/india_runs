@@ -12,6 +12,13 @@ permissions:
   contents: read
   id-token: write        # required for Workload Identity Federation
 
+env:
+  GCP_PROJECT: sarkarisaathi-687f1
+  GCP_REGION: asia-south1
+  WIF_PROVIDER: projects/525215721719/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+  DEPLOY_SA: github-deployer@sarkarisaathi-687f1.iam.gserviceaccount.com
+  RUNTIME_SA: firebase-adminsdk-fbsvc@sarkarisaathi-687f1.iam.gserviceaccount.com
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -22,9 +29,9 @@ jobs:
         name: Authenticate to GCP (keyless / WIF)
         uses: google-github-actions/auth@v2
         with:
-          project_id: ${{ vars.GCP_PROJECT }}
-          workload_identity_provider: ${{ vars.WIF_PROVIDER }}
-          service_account: ${{ vars.DEPLOY_SA }}
+          project_id: ${{ env.GCP_PROJECT }}
+          workload_identity_provider: ${{ env.WIF_PROVIDER }}
+          service_account: ${{ env.DEPLOY_SA }}
 
       - uses: google-github-actions/setup-gcloud@v2
 
@@ -32,8 +39,8 @@ jobs:
         run: |
           gcloud run deploy sarkarisaathi-backend \
             --source backend \
-            --region "${{ vars.GCP_REGION }}" \
+            --region "${{ env.GCP_REGION }}" \
             --allow-unauthenticated \
-            --service-account "${{ vars.RUNTIME_SA }}" \
+            --service-account "${{ env.RUNTIME_SA }}" \
             --memory 2Gi --cpu 2 --timeout 300 \
-            --set-env-vars "^##^GCP_PROJECT_ID=${{ vars.GCP_PROJECT }}##FIRESTORE_DATABASE=(default)##VECTOR_DISTANCE=COSINE##GROQ_MODEL=llama-3.1-8b-instant##GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}"
+            --set-env-vars "^##^GCP_PROJECT_ID=${{ env.GCP_PROJECT }}##FIRESTORE_DATABASE=(default)##VECTOR_DISTANCE=COSINE##GROQ_MODEL=llama-3.1-8b-instant##GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}"

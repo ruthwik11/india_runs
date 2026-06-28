@@ -6,19 +6,21 @@ import { useTranslation } from 'react-i18next';
 import { profileSchema } from '../../utils/validation';
 import { Button } from '../shared/Button';
 
+// All Indian states and UTs
 const INDIAN_STATES = [
-  'Andaman and Nicobar Islands', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar',
-  'Chandigarh', 'Chhattisgarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Goa',
-  'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka',
-  'Kerala', 'Ladakh', 'Lakshadweep', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya',
-  'Mizoram', 'Nagaland', 'Odisha', 'Puducherry', 'Punjab', 'Rajasthan', 'Sikkim',
-  'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'
-];
+  'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chandigarh',
+  'Chhattisgarh', 'Delhi', 'Goa', 'Gujarat', 'Haryana',
+  'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka', 'Kerala',
+  'Ladakh', 'Lakshadweep', 'Madhya Pradesh', 'Maharashtra', 'Manipur',
+  'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Puducherry',
+  'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana',
+  'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'
+].sort((a, b) => a.localeCompare(b));
 
 const steps = [
   { id: 'age', title: "What's your age?", type: 'options', options: ['18-25', '25-35', '35-50', '50-60', '60+'] },
-  { id: 'monthly_income', title: "What's your family's monthly income?", type: 'text', placeholder: "e.g., 15000 or 15k" },
-  { id: 'state', title: "Which state do you live in?", type: 'select', options: INDIAN_STATES, placeholder: "Select your state" },
+  { id: 'monthly_income', title: "What's your family's monthly income?", type: 'text', placeholder: "e.g., 15000" },
+  { id: 'state', title: "Which state do you live in?", type: 'select', options: INDIAN_STATES, placeholder: "Enter your state name" },
   { id: 'occupation', title: "What's your occupation?", type: 'options', options: ['student', 'farmer', 'employed', 'unemployed', 'business', 'other'] },
   { id: 'caste', title: "What is your caste category?", type: 'options', options: ['General', 'OBC', 'SC', 'ST', 'Minority'] },
   { id: 'has_land', title: "Do you own any land?", type: 'boolean' },
@@ -37,8 +39,8 @@ const ProfileForm = ({ onSubmit, initialData }) => {
       state: '',
       occupation: '',
       caste: '',
-      has_land: false,
-      land_size_acres: 0,
+      has_land: null,
+      land_size_acres: '',
     },
     mode: 'onTouched'
   });
@@ -124,10 +126,8 @@ const ProfileForm = ({ onSubmit, initialData }) => {
                       onClick={() => field.onChange(opt)}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' && !e.repeat) {
-                          if (field.value === opt) {
-                            e.preventDefault();
-                            handleNext();
-                          }
+                          e.preventDefault();
+                          handleNext();
                         }
                       }}
                       className={`p-4 border-2 border-black font-mono uppercase tracking-widest text-sm transition-all duration-100 ${
@@ -161,10 +161,8 @@ const ProfileForm = ({ onSubmit, initialData }) => {
                   onClick={() => field.onChange(true)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.repeat) {
-                      if (field.value === true) {
-                        e.preventDefault();
-                        handleNext();
-                      }
+                      e.preventDefault();
+                      handleNext();
                     }
                   }}
                   className={`p-4 border-2 border-black font-mono uppercase tracking-widest text-sm transition-all duration-100 ${
@@ -180,14 +178,12 @@ const ProfileForm = ({ onSubmit, initialData }) => {
                   onClick={() => field.onChange(false)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' && !e.repeat) {
-                      if (field.value === false) {
-                        e.preventDefault();
-                        handleNext();
-                      }
+                      e.preventDefault();
+                      handleNext();
                     }
                   }}
                   className={`p-4 border-2 border-black font-mono uppercase tracking-widest text-sm transition-all duration-100 ${
-                    field.value === false ? 'bg-black text-white' : 'bg-white text-black'
+                    field.value === false && field.value !== null ? 'bg-black text-white' : 'bg-white text-black'
                   }`}
                 >
                   No
@@ -227,24 +223,88 @@ const ProfileForm = ({ onSubmit, initialData }) => {
           <Controller
             name={step.id}
             control={control}
-            render={({ field }) => (
-              <select
-                {...field}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.repeat) {
-                    e.preventDefault();
-                    handleNext();
-                  }
-                }}
-                className={`w-full p-4 text-xl font-body bg-white text-black border-b-2 border-black focus:border-b-4 focus:outline-none transition-all duration-100 cursor-pointer appearance-none`}
-                style={{ backgroundImage: 'linear-gradient(45deg, transparent 50%, black 50%), linear-gradient(135deg, black 50%, transparent 50%)', backgroundPosition: 'calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px)', backgroundSize: '5px 5px, 5px 5px', backgroundRepeat: 'no-repeat' }}
-              >
-                <option value="" disabled>{step.placeholder}</option>
-                {step.options.map(opt => (
-                  <option key={opt} value={opt}>{opt}</option>
-                ))}
-              </select>
-            )}
+            render={({ field }) => {
+              const query = field.value || '';
+              const isTyping = query.trim().length > 0;
+              const PREFERRED_STATES = [
+                'Andhra Pradesh', 'Bihar', 'Delhi', 'Gujarat', 'Karnataka',
+                'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Punjab',
+                'Rajasthan', 'Tamil Nadu', 'Telangana', 'Uttar Pradesh', 'West Bengal'
+              ];
+              const filtered = INDIAN_STATES
+                .filter(s => s.toLowerCase().includes(query.toLowerCase()))
+                .sort((a, b) => a.localeCompare(b));
+
+              return (
+                <div className="relative w-full">
+                  <input
+                    type="text"
+                    placeholder={step.placeholder}
+                    value={query}
+                    autoComplete="off"
+                    onChange={e => field.onChange(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !e.repeat) {
+                        e.preventDefault();
+                        if (filtered.length === 1) {
+                          field.onChange(filtered[0]);
+                          setTimeout(() => handleNext(), 100);
+                        } else if (filtered.length > 0) {
+                          field.onChange(filtered[0]);
+                        }
+                      }
+                    }}
+                    className="w-full p-4 text-xl font-body bg-white text-black border-b-2 border-black focus:border-b-4 focus:outline-none transition-all duration-100"
+                  />
+
+                  {/* Preferred states shown when input is empty */}
+                  {!isTyping && (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {PREFERRED_STATES.map(opt => (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => {
+                            field.onChange(opt);
+                            setTimeout(() => handleNext(), 200);
+                          }}
+                          className="px-3 py-1.5 border border-black font-mono text-xs uppercase tracking-wider hover:bg-black hover:text-white transition-colors duration-100"
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Filtered results while typing */}
+                  {isTyping && filtered.length > 0 && (
+                    <div className="absolute z-50 left-0 w-full mt-1 bg-white border-2 border-black max-h-52 overflow-y-auto shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                      {filtered.map(opt => (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => {
+                            field.onChange(opt);
+                            setTimeout(() => handleNext(), 200);
+                          }}
+                          className={`w-full text-left px-4 py-3 font-body text-base border-b border-gray-100 last:border-b-0 hover:bg-black hover:text-white transition-colors duration-100 ${
+                            field.value === opt ? 'bg-black text-white' : 'bg-white text-black'
+                          }`}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {isTyping && filtered.length === 0 && (
+                    <div className="absolute z-50 left-0 w-full mt-1 bg-white border-2 border-black px-4 py-3 font-body text-sm text-gray-500">
+                      No states found
+                    </div>
+                  )}
+                </div>
+              );
+            }}
           />
         );
       default:

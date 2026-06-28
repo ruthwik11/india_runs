@@ -56,13 +56,6 @@ function App() {
             </h1>
           </motion.div>
           <div className="flex items-center gap-4 md:gap-6">
-            <button 
-              onClick={() => setCurrentPage('profile')}
-              className="flex items-center gap-2 font-bold hover:text-blue-600 transition-colors"
-            >
-              <UserCircle className="w-6 h-6" />
-              <span className="hidden md:inline">Profile</span>
-            </button>
             <LanguageSwitcher />
           </div>
         </div>

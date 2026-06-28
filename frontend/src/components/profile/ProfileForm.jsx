@@ -264,11 +264,10 @@ const ProfileForm = ({ onSubmit, initialData }) => {
                         <button
                           key={opt}
                           type="button"
-                          onClick={() => {
-                            field.onChange(opt);
-                            setTimeout(() => handleNext(), 200);
-                          }}
-                          className="px-3 py-1.5 border border-black font-mono text-xs uppercase tracking-wider hover:bg-black hover:text-white transition-colors duration-100"
+                          onClick={() => field.onChange(opt)}
+                          className={`px-3 py-1.5 border border-black font-mono text-xs uppercase tracking-wider hover:bg-black hover:text-white transition-colors duration-100 ${
+                            field.value === opt ? 'bg-black text-white' : ''
+                          }`}
                         >
                           {opt}
                         </button>
@@ -276,17 +275,14 @@ const ProfileForm = ({ onSubmit, initialData }) => {
                     </div>
                   )}
 
-                  {/* Filtered results while typing */}
-                  {isTyping && filtered.length > 0 && (
+                  {/* Filtered results while typing — hide when exact match already selected */}
+                  {isTyping && filtered.length > 0 && !INDIAN_STATES.includes(field.value) && (
                     <div className="absolute z-50 left-0 w-full mt-1 bg-white border-2 border-black max-h-52 overflow-y-auto shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                       {filtered.map(opt => (
                         <button
                           key={opt}
                           type="button"
-                          onClick={() => {
-                            field.onChange(opt);
-                            setTimeout(() => handleNext(), 200);
-                          }}
+                          onClick={() => field.onChange(opt)}
                           className={`w-full text-left px-4 py-3 font-body text-base border-b border-gray-100 last:border-b-0 hover:bg-black hover:text-white transition-colors duration-100 ${
                             field.value === opt ? 'bg-black text-white' : 'bg-white text-black'
                           }`}

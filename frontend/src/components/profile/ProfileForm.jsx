@@ -17,7 +17,7 @@ const INDIAN_STATES = [
 
 const steps = [
   { id: 'age', title: "What's your age?", type: 'options', options: ['18-25', '25-35', '35-50', '50-60', '60+'] },
-  { id: 'monthly_income', title: "What's your family's monthly income?", type: 'text', placeholder: "e.g., 15000" },
+  { id: 'monthly_income', title: "What's your family's monthly income?", type: 'text', placeholder: "e.g., 15000 or 15k" },
   { id: 'state', title: "Which state do you live in?", type: 'select', options: INDIAN_STATES, placeholder: "Select your state" },
   { id: 'occupation', title: "What's your occupation?", type: 'options', options: ['student', 'farmer', 'employed', 'unemployed', 'business', 'other'] },
   { id: 'caste', title: "What is your caste category?", type: 'options', options: ['General', 'OBC', 'SC', 'ST', 'Minority'] },
@@ -29,10 +29,6 @@ const ProfileForm = ({ onSubmit, initialData }) => {
   const { i18n } = useTranslation();
   const [currentStep, setCurrentStep] = useState(0);
   const isProcessing = React.useRef(false);
-  const [stateSearch, setStateSearch] = useState('');
-  const [showStateDropdown, setShowStateDropdown] = useState(false);
-  const dropdownRef = React.useRef(null);
-
   const { control, handleSubmit, trigger, watch, formState: { errors } } = useForm({
     resolver: zodResolver(profileSchema),
     defaultValues: initialData || {
@@ -48,26 +44,6 @@ const ProfileForm = ({ onSubmit, initialData }) => {
   });
 
   const formValues = watch();
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowStateDropdown(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  // Filter steps based on conditions
-  const activeSteps = steps.filter(step => !step.condition || step.condition(formValues));
-
-  useEffect(() => {
-    const currentFieldName = activeSteps[currentStep]?.id;
-    if (currentFieldName === 'state') {
-      setStateSearch(formValues.state || '');
-    }
-  }, [currentStep]);
 
   // State to Language Mapping Magic
   useEffect(() => {
@@ -97,6 +73,9 @@ const ProfileForm = ({ onSubmit, initialData }) => {
     }
   }, [formValues.state, i18n]);
 
+  // Filter steps based on conditions
+  const activeSteps = steps.filter(step => !step.condition || step.condition(formValues));
+  
   const handleNext = async () => {
     if (isProcessing.current) return;
     isProcessing.current = true;
@@ -133,7 +112,7 @@ const ProfileForm = ({ onSubmit, initialData }) => {
             name={step.id}
             control={control}
             render={({ field }) => (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 {step.options.map((opt) => {
                   const isSelected = field.value === opt;
                   return (
@@ -174,7 +153,7 @@ const ProfileForm = ({ onSubmit, initialData }) => {
             name={step.id}
             control={control}
             render={({ field }) => (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <motion.button
                   type="button"
                   whileHover={{ scale: 1.02 }}
@@ -225,27 +204,14 @@ const ProfileForm = ({ onSubmit, initialData }) => {
             control={control}
             render={({ field }) => (
               <input
-                type={step.id === 'monthly_income' ? 'text' : step.type}
-                inputMode={step.id === 'monthly_income' ? 'numeric' : undefined}
-                pattern={step.id === 'monthly_income' ? '[0-9]*' : undefined}
+                type={step.type}
                 placeholder={step.placeholder}
                 {...field}
                 onChange={e => {
-                  let val = e.target.value;
-                  if (step.id === 'monthly_income') {
-                    val = val.replace(/[^0-9]/g, '');
-                  } else if (step.type === 'number') {
-                    val = e.target.value ? Number(e.target.value) : '';
-                  }
+                  const val = step.type === 'number' ? (e.target.value ? Number(e.target.value) : '') : e.target.value;
                   field.onChange(val);
                 }}
                 onKeyDown={(e) => {
-                  if (step.id === 'monthly_income') {
-                    const allowed = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End'];
-                    if (!allowed.includes(e.key) && !/^[0-9]$/.test(e.key)) {
-                      e.preventDefault();
-                    }
-                  }
                   if (e.key === 'Enter' && !e.repeat) {
                     e.preventDefault();
                     handleNext();
@@ -261,107 +227,24 @@ const ProfileForm = ({ onSubmit, initialData }) => {
           <Controller
             name={step.id}
             control={control}
-            render={({ field }) => {
-              // Ensure we sort alphabetically
-              const sortedOptions = [...step.options].sort((a, b) => a.localeCompare(b));
-              
-              // Filter options based on user input
-              const filteredOptions = sortedOptions.filter(opt =>
-                opt.toLowerCase().includes(stateSearch.toLowerCase())
-              );
-
-              // Show first 5 sorted states by default if query is empty
-              const optionsToShow = stateSearch.trim() === '' 
-                ? sortedOptions.slice(0, 5) 
-                : filteredOptions;
-
-              return (
-                <div className="relative w-full" ref={dropdownRef}>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder={step.placeholder}
-                      value={stateSearch}
-                      onChange={e => {
-                        const val = e.target.value;
-                        setStateSearch(val);
-                        setShowStateDropdown(true);
-                        // If input is cleared, reset selection
-                        if (val.trim() === '') {
-                          field.onChange('');
-                        }
-                      }}
-                      onFocus={() => setShowStateDropdown(true)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          if (optionsToShow.length > 0) {
-                            const match = optionsToShow[0];
-                            field.onChange(match);
-                            setStateSearch(match);
-                            setShowStateDropdown(false);
-                            // Auto-advance after small delay so selection registers visually
-                            setTimeout(() => handleNext(), 80);
-                          }
-                        }
-                      }}
-                      className="w-full p-4 pr-12 text-xl font-body bg-white text-black border-b-2 border-black focus:border-b-4 focus:outline-none transition-all duration-100"
-                    />
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-3">
-                      {stateSearch && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setStateSearch('');
-                            field.onChange('');
-                            setShowStateDropdown(true);
-                          }}
-                          className="text-gray-400 hover:text-black font-bold p-1 text-sm transition-colors"
-                        >
-                          ✕
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  <AnimatePresence>
-                    {showStateDropdown && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -8 }}
-                        className="absolute z-50 left-0 w-full mt-1 bg-white border-2 border-black max-h-60 overflow-y-auto shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-                      >
-                        {optionsToShow.length > 0 ? (
-                          optionsToShow.map((opt) => {
-                            const isSelected = field.value === opt;
-                            return (
-                              <button
-                                key={opt}
-                                type="button"
-                                onClick={() => {
-                                  field.onChange(opt);
-                                  setStateSearch(opt);
-                                  setShowStateDropdown(false);
-                                }}
-                                className={`w-full text-left px-4 py-3 font-body text-lg border-b border-gray-100 last:border-b-0 hover:bg-black hover:text-white transition-colors duration-100 flex justify-between items-center ${
-                                  isSelected ? 'bg-black text-white' : 'bg-white text-black'
-                                }`}
-                              >
-                                <span>{opt}</span>
-                                {isSelected && <span>✓</span>}
-                              </button>
-                            );
-                          })
-                        ) : (
-                          <div className="px-4 py-3 text-sm text-gray-500 font-body">No matching states found</div>
-                        )}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            }}
+            render={({ field }) => (
+              <select
+                {...field}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.repeat) {
+                    e.preventDefault();
+                    handleNext();
+                  }
+                }}
+                className={`w-full p-4 text-xl font-body bg-white text-black border-b-2 border-black focus:border-b-4 focus:outline-none transition-all duration-100 cursor-pointer appearance-none`}
+                style={{ backgroundImage: 'linear-gradient(45deg, transparent 50%, black 50%), linear-gradient(135deg, black 50%, transparent 50%)', backgroundPosition: 'calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px)', backgroundSize: '5px 5px, 5px 5px', backgroundRepeat: 'no-repeat' }}
+              >
+                <option value="" disabled>{step.placeholder}</option>
+                {step.options.map(opt => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </select>
+            )}
           />
         );
       default:
@@ -426,7 +309,7 @@ const ProfileForm = ({ onSubmit, initialData }) => {
         </AnimatePresence>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 mt-8 pt-8 border-t-[4px] border-black">
+      <div className="flex gap-4 mt-8 pt-8 border-t-[4px] border-black">
         <Button 
           variant="secondary" 
           onClick={handleBack} 

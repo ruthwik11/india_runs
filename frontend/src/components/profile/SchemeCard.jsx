@@ -12,14 +12,14 @@ export const SchemeCard = ({ scheme }) => {
       transition={{ type: 'spring', stiffness: 70, damping: 20 }}
       whileHover={{ backgroundColor: '#000000', color: '#FFFFFF' }}
       onClick={() => setExpanded(!expanded)}
-      className="bg-white border-thin border-black p-5 sm:p-8 group transition-colors duration-100 mb-4 cursor-pointer"
+      className="bg-white border-thin border-black p-8 group transition-colors duration-100 mb-4 cursor-pointer"
     >
       <div className="flex justify-between items-start mb-6">
-        <div className="pr-4">
-          <h3 className="font-display text-2xl sm:text-4xl font-semibold tracking-tight mb-2 group-hover:text-white">
+        <div>
+          <h3 className="font-display text-4xl font-semibold tracking-tight mb-2 group-hover:text-white">
             {scheme.name_en}
           </h3>
-          <p className="font-body text-xl sm:text-2xl font-bold group-hover:text-white">
+          <p className="font-body text-2xl font-bold group-hover:text-white">
             {scheme.benefit_amount}
           </p>
         </div>
@@ -38,14 +38,14 @@ export const SchemeCard = ({ scheme }) => {
         ))}
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+      <div className="flex gap-4">
         <Button 
           variant="secondary"
           onClick={(e) => {
             e.stopPropagation();
             setExpanded(!expanded);
           }}
-          className="w-full sm:w-auto group-hover:bg-white group-hover:text-black group-hover:border-white"
+          className="group-hover:bg-white group-hover:text-black group-hover:border-white"
         >
           {expanded ? 'Hide Details ▲' : 'View Details ▼'}
         </Button>
@@ -55,7 +55,7 @@ export const SchemeCard = ({ scheme }) => {
             e.stopPropagation();
             window.open(scheme.apply_link, '_blank');
           }}
-          className="w-full sm:w-auto group-hover:bg-white group-hover:text-black group-hover:border-white"
+          className="group-hover:bg-white group-hover:text-black group-hover:border-white"
         >
           Apply Now →
         </Button>

@@ -139,7 +139,7 @@ function Home({ onStart }) {
   ], [t]);
 
   return (
-    <div className="relative bg-white pattern-lines-horizontal">
+    <div className="relative bg-white pattern-lines-horizontal mt-10 md:mt-0">
       {/* Hero Section */}
       <Hero
         title={t('home.title')}

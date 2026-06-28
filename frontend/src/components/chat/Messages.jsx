@@ -5,12 +5,12 @@ import ReactMarkdown from 'react-markdown';
 
 export const UserMessage = ({ message }) => (
   <motion.div
-    initial={{ opacity: 0, x: 40 }}
+    initial={{ opacity: 0, x: 20 }}
     animate={{ opacity: 1, x: 0 }}
-    transition={{ type: 'spring', stiffness: 70, damping: 20 }}
+    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
     className="flex justify-end mb-4"
   >
-    <div className="bg-white border-thin border-black text-black px-6 py-4 max-w-[80%] font-body">
+    <div className="bg-white border-thin border-black text-black px-4 py-3 sm:px-6 sm:py-4 max-w-[90%] md:max-w-[80%] font-body">
       {message}
     </div>
   </motion.div>
@@ -34,12 +34,12 @@ export const BotMessage = ({ message, children }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: -40 }}
+      initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ type: 'spring', stiffness: 70, damping: 20, delay: 0.1 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
       className="flex justify-start mb-4"
     >
-      <div className="bg-white border-thin border-black text-black px-6 py-4 max-w-[90%] font-body relative group/msg">
+      <div className="bg-white border-thin border-black text-black px-4 py-3 sm:px-6 sm:py-4 max-w-[95%] md:max-w-[90%] font-body relative group/msg">
         <button 
           onClick={toggleSpeech}
           className="absolute bottom-2 right-2 text-gray-500 hover:text-black w-8 h-8 flex items-center justify-center opacity-0 group-hover/msg:opacity-100 transition-opacity z-10"

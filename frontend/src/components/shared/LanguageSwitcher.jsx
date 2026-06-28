@@ -43,7 +43,7 @@ const LanguageSwitcher = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="absolute right-0 mt-2 w-40 bg-white border-thin border-black"
+            className="absolute right-0 bottom-full mb-2 md:bottom-auto md:top-full md:mb-0 md:mt-2 w-40 bg-white border-thin border-black shadow-[0_0_10px_rgba(0,0,0,0.1)]"
           >
             {languages.map((lang, idx) => (
               <motion.button

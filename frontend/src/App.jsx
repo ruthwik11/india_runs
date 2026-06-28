@@ -40,11 +40,17 @@ function App() {
       <header className="sticky top-0 z-50 bg-white border-b-4 border-black">
         <div className="container flex justify-between items-center py-6 px-4 md:px-8 mx-auto">
           <motion.div 
-            className="cursor-pointer"
+            className="cursor-pointer flex items-center gap-3"
             onClick={() => setCurrentPage('home')}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
+            {/* Logo */}
+            <img
+              src="/favicon.svg"
+              alt="SarkariSaathi Logo"
+              className="w-9 h-9 flex-shrink-0"
+            />
             <h1 className="font-display text-2xl md:text-3xl tracking-tighter font-bold">
               SarkariSaathi
             </h1>

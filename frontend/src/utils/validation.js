@@ -16,7 +16,10 @@ export const profileSchema = z.object({
     errorMap: () => ({ message: 'Please select your caste category' }),
   }),
   has_land: z.boolean({ required_error: 'Please select yes or no', invalid_type_error: 'Please select yes or no' }).nullable().refine(val => val !== null, { message: 'Please select yes or no' }),
-  land_size_acres: z.number().min(0).optional(),
+  land_size_acres: z.preprocess(
+    (val) => (val === '' || val === null || val === undefined) ? undefined : Number(val),
+    z.number().min(0).optional()
+  ),
 }).superRefine((data, ctx) => {
   if (data.has_land && data.land_size_acres === undefined) {
     ctx.addIssue({

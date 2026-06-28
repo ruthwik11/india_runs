@@ -25,10 +25,10 @@ const Hero = React.memo(({ title, subtitle, startButtonText, onStart }) => {
   };
 
   return (
-    <section className="container py-16 md:py-32 flex flex-col items-center px-6 md:px-8">
+    <section className="container pt-24 pb-20 md:py-32 flex flex-col items-center px-8 md:px-8">
       {/* Title */}
       <motion.h2
-        className="font-display text-4xl md:text-6xl tracking-tighter leading-[1.15] text-center mb-6 md:mb-6 max-w-4xl"
+        className="font-display text-4xl md:text-6xl tracking-tighter leading-[1.2] text-center mb-8 md:mb-6 max-w-4xl"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -42,7 +42,7 @@ const Hero = React.memo(({ title, subtitle, startButtonText, onStart }) => {
 
       {/* Subtitle */}
       <motion.p
-        className="font-body text-base md:text-xl font-light text-center mb-10 md:mb-12 max-w-2xl text-muted-foreground px-2"
+        className="font-body text-base md:text-xl font-light text-center mb-12 md:mb-12 max-w-2xl text-muted-foreground px-2"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
@@ -69,7 +69,7 @@ Hero.displayName = 'Hero';
 // Memoized FeatureCards component to prevent animation re-triggers on state updates
 const FeatureCards = React.memo(({ features }) => {
   return (
-    <section className="container pt-14 md:pt-24 pb-16 md:pb-24 flex justify-center items-center px-6 md:px-8">
+    <section className="container pt-20 md:pt-24 pb-16 md:pb-24 flex justify-center items-center px-8 md:px-8">
       <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-12">
         {features.map((feature, idx) => (
           <div
